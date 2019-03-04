@@ -151,7 +151,7 @@ for group in only_user_groups:
 
 
 
-# print('len_group_list:\n', len(group_list))
+print('len_group_list:\n', len(group_list))
 # print('создан словарь из списка:\n', group_list)
 
 with open('groups.json', 'w', encoding='utf-8') as f:
