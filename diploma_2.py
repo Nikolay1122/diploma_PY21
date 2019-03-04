@@ -110,7 +110,7 @@ for group in user_groups_set:
         if len(users_groups) > 0:
             print('group', group)
             groups_friends.add(group)
-            print('1', groups_friends)
+            # print(groups_friends)
     time.sleep(0.35)
 user_groups_set_enter -= groups_friends
         # else:
