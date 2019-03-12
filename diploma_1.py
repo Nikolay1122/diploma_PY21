@@ -85,7 +85,7 @@ for friend in friends_list_id:
     }
     response = requests.get(url, params=params, timeout=30).json()
     if 'error' in response:
-        print('обращение к другу выдало:\n', response['error']['error_code'], '\n',response['error']['error_msg'])
+        print('обращение к другу выдало: номер ошибки', response['error']['error_code'], '- ',response['error']['error_msg'])
         count += 1
         continue
     else:
@@ -147,7 +147,7 @@ for group in only_user_groups:
 
     except:
         # count += 1
-        print('обращение к группе выдало: error\n', response['response']['deactivated'])
+        print('обращение к группе выдало: error\n', response['response'][0])
 
 
 
