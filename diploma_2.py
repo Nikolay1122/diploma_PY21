@@ -5,7 +5,7 @@ import requests
 import time
 import json
 
-token = 'ed1271af9e8883f7a7c2cefbfddfcbc61563029666c487b2f71a5227cce0d1b533c4af4c5b888633c06ae'
+token = '8003a47e60dcd4a62c13e2cc96704c290c564e0291c3da0d6e662c43b2fc922d00956ce6bced504ab99de'
 
 user = input('Введите id пользователя или его user_name:')
 # print('user\n', user)
@@ -41,7 +41,7 @@ def get_user_groups(user_id):
     # print('params\n', params)
     url = 'https://api.vk.com/method/groups.get'
     response = requests.get(url, params=params, timeout=30).json()
-    # print('response\n', response)
+    print('response\n', response)
     user_groups_set = set(response['response']['items'])
     return (user_groups_set)
 

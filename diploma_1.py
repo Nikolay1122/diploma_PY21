@@ -5,7 +5,7 @@ import requests
 import time
 import json
 
-token = 'ed1271af9e8883f7a7c2cefbfddfcbc61563029666c487b2f71a5227cce0d1b533c4af4c5b888633c06ae'
+token = 'e62bff8a57e7662edee756efac3726bbf1349a3b7c19dcdcce08f4858b62fa3c5370c7479d7ff7a9d7f79'
 
 user = input('Введите id пользователя или его user_name:')
 # print('user\n', user)
@@ -26,7 +26,7 @@ except:
     user_id = user
     # print('проверяем\n', user_id)
 
-# print('проверяем:\n', user_id)
+print('проверяем:\n', user_id)
 
 
 print('\n--Записываем группы объекта во множество user_groups_set--\n')
@@ -70,7 +70,7 @@ def get_user_friends(user_id):
 friends_list_id = get_user_friends(user_id)
 
 print('количество друзей у проверяемого: \n', len(friends_list_id))
-print('список друзей проверяемого: \n', friends_list_id)
+# print('список друзей проверяемого: \n', friends_list_id)
 
 print('\n--Записываем все группы друзей  во множество friends_group_set--\n')
 
@@ -85,7 +85,7 @@ for friend in friends_list_id:
     }
     response = requests.get(url, params=params, timeout=30).json()
     if 'error' in response:
-        print('обращение к другу выдало:\n', response)
+        print('обращение к другу выдало:\n', response['error']['error_code'], '\n',response['error']['error_msg'])
         count += 1
         continue
     else:
@@ -137,7 +137,7 @@ for group in only_user_groups:
             group_info_dict['members_count'] = (response['response'][0]['members_count'])
             # print('group_info_dict[members_count]\n', group_info_dict['members_count'])
             if 'error' in response:
-                print('обращение к группе выдало:\n', response)
+                print('обращение к группе выдало:\n', response['response'])
                 count += 1
                 continue
             group_list.append(group_info_dict)
@@ -146,8 +146,8 @@ for group in only_user_groups:
             time.sleep(0.35)
 
     except:
-        count += 1
-        print('обращение к группе выдало: error\n')
+        # count += 1
+        print('обращение к группе выдало: error\n', response['response']['deactivated'])
 
 
 

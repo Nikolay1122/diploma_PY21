@@ -4,7 +4,7 @@ import requests
 import time
 import json
 
-token = 'ed1271af9e8883f7a7c2cefbfddfcbc61563029666c487b2f71a5227cce0d1b533c4af4c5b888633c06ae'
+token = '6601d3306601d3306601d330986668ea98666016601d3303a86a0d27143595f139c0143'
 
 user = input('Введите id пользователя или его user_name:')
 print('user\n', user)
