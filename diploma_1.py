@@ -147,7 +147,7 @@ for group in only_user_groups:
 
     except:
         # count += 1
-        print('обращение к группе выдало: error\n', response['response'][0])
+        print('обращение к группе выдало: error\n', response['response'][0]['deactivated'])
 
 
 
