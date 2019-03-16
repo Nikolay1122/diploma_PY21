@@ -5,7 +5,7 @@ import requests
 import time
 import json
 
-token = 'e62bff8a57e7662edee756efac3726bbf1349a3b7c19dcdcce08f4858b62fa3c5370c7479d7ff7a9d7f79'
+token = '73eaea320bdc0d3299faa475c196cfea1c4df9da4c6d291633f9fe8f83c08c4de2a3abf89fbc3ed8a44e1'
 
 user = input('Введите id пользователя или его user_name:')
 # print('user\n', user)
@@ -85,14 +85,15 @@ for friend in friends_list_id:
     }
     response = requests.get(url, params=params, timeout=30).json()
     if 'error' in response:
-        print('обращение к другу выдало: номер ошибки', response['error']['error_code'], '- ',response['error']['error_msg'])
+        print('обращение к другу выдало: номер ошибки', response['error']['error_code'],
+              '- ',response['error']['error_msg'])
         count += 1
         continue
     else:
         friends_group.extend(response['response']['items'])
         count += 1
     print('проверены группы друга № {}'.format(count))
-    time.sleep(0.35)
+    time.sleep(0.4)
 
 friends_group_set = set(friends_group)
 print('количество групп у друзей проверяемого: ', len(friends_group_set))
@@ -143,10 +144,8 @@ for group in only_user_groups:
             group_list.append(group_info_dict)
             print('записываем группу № ', count)
             count += 1
-            time.sleep(0.35)
-
+            time.sleep(0.4)
     except:
-        # count += 1
         print('обращение к группе выдало: error\n', response['response'][0]['deactivated'])
 
 
