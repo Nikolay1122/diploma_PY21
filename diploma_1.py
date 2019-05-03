@@ -19,17 +19,17 @@ try:
     # print('params\n', params)
     url = 'https://api.vk.com/method/users.search'
     response = requests.get(url, params=params, timeout=30).json()
-    # print('response\n', response)
+    # print('response0\n', response)
     user_id = response['response']['items'][0]['id']
-    # print('user_id1\n', user_id)
+    print('user_id1\n', user_id)
 except:
     user_id = user
-    # print('проверяем\n', user_id)
+    print('проверяем\n', user)
 
 print('проверяем:\n', user_id)
 
 
-print('\n--Записываем группы объекта во множество user_groups_set--\n')
+print('\t--Записываем группы объекта во множество user_groups_set--\n')
 
 
 def get_user_groups(user_id):
@@ -51,7 +51,7 @@ print('количество групп у проверяемого:\n', len(user
 # print('список групп у проверяемого\n', user_groups_set)
 
 
-print('\n--Записваем друзей в список friends_list--\n')
+print('\t--Записваем друзей в список friends_list--\n')
 
 
 def get_user_friends(user_id):
@@ -72,10 +72,11 @@ friends_list_id = get_user_friends(user_id)
 print('количество друзей у проверяемого: \n', len(friends_list_id))
 # print('список друзей проверяемого: \n', friends_list_id)
 
-print('\n--Записываем все группы друзей  во множество friends_group_set--\n')
+print('\t--Записываем все группы друзей  во множество friends_group_set--\n')
 
 friends_group = []
 count = 0
+
 for friend in friends_list_id:
     url = 'https://api.vk.com/method/groups.get'
     params = {
@@ -85,21 +86,39 @@ for friend in friends_list_id:
     }
     response = requests.get(url, params=params, timeout=30).json()
     if 'error' in response:
-        print('обращение к другу выдало: номер ошибки', response['error']['error_code'],
-              '- ',response['error']['error_msg'])
+        print('\nобращение к другу выдало: номер ошибки', response['error']['error_code'],
+              '- ', response['error']['error_msg'])
         count += 1
+        if response['error']['error_code'] == 30:
+            print('Этот профиль является частным\n')
+        elif response['error']['error_code'] == 18:
+            print('Пользователь был удален или заблокирован\n')
+        elif response['error']['error_code'] == 7:
+            print('В разрешении на выполнение этого действия отказано\n')
+        elif response['error']['error_code'] == 6:
+            print('Время\n')
+            url = 'https://api.vk.com/method/groups.get'
+            params = {
+                'access_token': token,
+                'v': 5.92,
+                'user_id': friend
+            }
+            response = requests.get(url, params=params, timeout=30).json()
+        else:
+            print('Непротестированная ошибка\n')
+
         continue
     else:
         friends_group.extend(response['response']['items'])
         count += 1
     print('проверены группы друга № {}'.format(count))
-    time.sleep(0.4)
+    time.sleep(0.5)
 
 friends_group_set = set(friends_group)
 print('количество групп у друзей проверяемого: ', len(friends_group_set))
 # print('список групп друзей проверяемого: ', friends_group_set)
 
-print('\n--Находим группы из первого множества, которых нет во втором--\n')
+print('\t--Находим группы из первого множества, которых нет во втором--\n')
 
 only_user_groups = user_groups_set.difference(friends_group_set)
 
@@ -125,7 +144,7 @@ for group in only_user_groups:
         response = requests.get(url, params=params, timeout=30).json()
         # print('response\n', response)
         if 'error' in response:
-            print('error: ', response, '\n')
+            print('error: ', response, ' запрещенный\n')
             continue
         else:
 
@@ -144,9 +163,10 @@ for group in only_user_groups:
             group_list.append(group_info_dict)
             print('записываем группу № ', count)
             count += 1
-            time.sleep(0.4)
+            time.sleep(0.5)
     except:
-        print('обращение к группе выдало: error\n', response['response'][0]['deactivated'])
+        print(response)
+        print('обращение к группе выдало: ', response['response'][0]['deactivated'],'\nзапрещенный')
 
 
 
